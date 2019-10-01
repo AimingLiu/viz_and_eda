@@ -1,5 +1,5 @@
 ---
-title: "ggplot1"
+title: "ggplot2"
 author: "AimingLiu"
 date: "9/26/2019"
 output: github_document
@@ -25,6 +25,61 @@ library(ggridges)
     tmax = tmax / 10) %>%
   select(name, id, everything())
 ```
+##making a new plot
+
+add labels
+```{r}
+weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5)+
+  labs(
+    title = "Temperature plot",
+    x = "Mininal Temp(C) ",
+    y = "Maximum Temo(C)",
+    caption = "Data from noaa via rnoaa package"
+  )+
+  scale_x_continuous(
+     breaks = c(-15,-5,-20),#heplful if you have something to highlight
+     labels = c("-15º C", "0", "15"))
+    
+
+```
+#colors next
+```{r}
+ggp_temp_plot = 
+weather_df %>% 
+  ggplot(aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5)+
+  labs(
+    title = "Temperature plot",
+    x = "Mininal Temp(C) ",
+    y = "Maximum Temo(C)",
+    caption = "Data from noaa via rnoaa package"
+  )+
+   scale_color_hue(name = "Location")
+```
+
+```{r}
+ ggp_temp_plot + 
+  theme(legend.position = "bottom")#change the position of the legend
+```
+#more than one dataset
+```{r}
+central_park = 
+  weather_df%>%
+  filter(name == "CentralPark_NY")
+
+waikiki = 
+  weather_df %>% 
+  filter(name == "Waikiki_HA")
+
+ggplot(data = waikiki, aes(x = date, y = tmax, color = name)) + 
+  geom_point() + 
+  geom_line(data = central_park)
+```
+
+
+
 ##create a ggplot#
 ```{r}
 ggplot(weather_df,aes(x = tmin,y = tmax))+geom_point()#add point#
@@ -106,7 +161,18 @@ ridge plots
     ggplot(aes(x = tmax,y = name))+
     geom_density_ridges(scale = .85)
 ```
+#saving a plot
+```{r}
+weather_plot = ggplot(weather_df, aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5) 
 
+ggsave("weather_plot.pdf", weather_plot, width = 8, height = 5)
+```
+
+
+```{r}
+
+```
 
 
 

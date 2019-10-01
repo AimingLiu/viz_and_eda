@@ -208,4 +208,14 @@ ridge plots
 
     ## Warning: Removed 3 rows containing non-finite values (stat_density_ridges).
 
-![](ggplot-1_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](ggplot-1_files/figure-gfm/unnamed-chunk-14-1.png)<!-- --> \#saving a
+plot
+
+``` r
+weather_plot = ggplot(weather_df, aes(x = tmin, y = tmax)) + 
+  geom_point(aes(color = name), alpha = .5) 
+
+ggsave("weather_plot.pdf", weather_plot, width = 8, height = 5)
+```
+
+    ## Warning: Removed 15 rows containing missing values (geom_point).
